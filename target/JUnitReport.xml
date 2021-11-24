@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<testsuite errors="0" failures="2" name="io.cucumber.core.plugin.JUnitFormatter" skipped="0" tests="2" time="36.367">
+<testcase classname="User Online Registration" name="_2" time="18.774">
+<failure message="The scenario has pending or undefined step(s)" type="java.lang.Exception"><![CDATA[Given The user attempts to register with an existing account................passed
+Given the user enters their "test@email.com" and clicks create..............passed
+And Error message is displayed on clicking create...........................passed
+When tries logging in with a "test@email.com" and "Test!@12"................undefined
+Then the user is presented with the correct error message...................skipped
+]]></failure>
+</testcase>
+<testcase classname="User Online Registration" name="_3" time="17.414">
+<failure message="The scenario has pending or undefined step(s)" type="java.lang.Exception"><![CDATA[Given The user attempts to register with an existing account................passed
+Given the user enters their "Test@1222email.com" and clicks create..........passed
+And Error message is displayed on clicking create...........................passed
+When tries logging in with a "Test@1222email.com" and "Legend@@12"..........undefined
+Then the user is presented with the correct error message...................skipped
+]]></failure>
+</testcase>
+</testsuite>
