@@ -22,10 +22,11 @@ Feature: User Online Registration
     Scenario Outline:
       Given the user enters their <username> and clicks create
       And Error message is displayed on clicking create
-      When tries logging in with a <username> and <password>
+      When the user tries logging in with a <username>
+      And using their <password> and clicking submit
       Then the user is presented with the correct error message
 
       Examples:
-        | username         | password     |
-        | "test@email.com" | "Test!@12"   |
-        | "Test@1222email.com"     | "Legend@@12" |
+        | username             | password |
+        | "Test@1222email.com" | "12345"  |
+        | "Malusi@test.com"    | "1234"   |

@@ -3,6 +3,7 @@ package Registration;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
+import io.cucumber.java.en.When;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -29,6 +30,11 @@ public class RegistrationSteps {
         String email_invalid_errormessage = "Invalid email address";
         String email_already_exists = "exists";
         String email_format_invalid = "invalid";
+        String account_already_exists_label = "Already registered?";
+        String already_exists_email = "email";
+        String already_exists_password = "passwd";
+        String forgot_password_link = "//*//a[contains(.,\"Forgot your password?\")]";
+        String submit_login_button = "SubmitLogin";
     }
     public void SetChromeBrowserDriver(){
         System.setProperty("webdriver.chrome.driver",var.chrome_path);
@@ -43,18 +49,14 @@ public class RegistrationSteps {
     @Before
     public void Load_Browser_and_navigate_to_registration(){
 
-        String projectPath = System.getProperty("user.dir");
-        //SetChromeBrowserDriver();
         SetFirefoxBrowserDriver();
         js = (JavascriptExecutor) driver;
         driver.get(var.MyStor_Home);
-        //driver.get("http://automationpractice.com");
-        //driver.navigate().to("http://automationpractice.com/index.php");
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.findElement(By.id("page")).isDisplayed();
         verifyHomePageLoad();
-        //The_user_enters_an_already_existing_email();
+
     }
     @Given("The user enters an already existing email")
     public void The_user_enters_an_already_existing_email() {
@@ -72,7 +74,7 @@ public class RegistrationSteps {
         driver.findElement(By.xpath(var.Sign_in_button)).click();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.findElement(By.xpath(var.Authentication_page)).isDisplayed();
-        //enter_user_email(email);
+
 
     }
 
@@ -82,22 +84,35 @@ public class RegistrationSteps {
         driver.findElement(By.id(var.Create_account_email)).clear();
         driver.findElement(By.id(var.Create_account_email)).click();
         driver.findElement(By.id(var.Create_account_email)).sendKeys(email);
-        //driver.findElement(By.id(var.Create_account_label_create)).click();
         driver.findElement(By.id(var.Create_account_button)).click();
-        //validate_user_already_exists();
     }
 
     @And("Error message is displayed on clicking create")
     public void validate_user_already_exists(){
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        //driver.findElement(By.id(var.email_exists_errormessage)).isDisplayed();
         Verify_error_message(var.email_exists_errormessage, var.email_already_exists);
+    }
+
+    @When("the user tries logging in with a {string}")
+    public void user_attempts_login(String username){
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver.findElement(By.id(var.account_already_exists_label)).isDisplayed();
+        driver.findElement(By.id(var.already_exists_email)).click();
+        driver.findElement(By.id(var.already_exists_email)).sendKeys(username);
+        driver.findElement(By.id(var.already_exists_password)).click();
+
+    }
+
+    @And("using their {string} and clicking submit")
+    public void user_enters_password(String password){
+        driver.findElement(By.id(var.already_exists_password)).sendKeys(password);
+        driver.findElement(By.id(var.submit_login_button)).isEnabled();
+        driver.findElement(By.id(var.submit_login_button)).click();
     }
 
     public void verify_user_email_valid(){
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         Verify_error_message(var.email_invalid_errormessage, var.email_format_invalid);
-        //driver.findElement(By.id(var.email_invalid_errormessage)).isDisplayed();
     }
 
     public void Verify_error_message(String message, String error ){
